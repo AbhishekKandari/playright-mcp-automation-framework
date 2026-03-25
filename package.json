@@ -1,0 +1,20 @@
+{
+  "name": "playwright-mcp-automation-framework",
+  "version": "1.0.0",
+  "description": "MCP server for Playwright web automation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "report": "npx playwright show-report"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.4.0",
+    "playwright": "^1.40.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}
