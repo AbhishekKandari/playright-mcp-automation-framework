@@ -9,6 +9,7 @@ from utils.helpers import test_data
 @allure.feature("Login Functionality")
 @allure.story("Valid Login")
 @allure.step("Navigate to login page")
+@allure.description("Verify that a standard user can successfully log in with valid credentials. This test ensures the user is redirected to the inventory page after login.")
 def test_valid_login_standard_user(page):
     login_page = LoginPage(page)
     login_page.goto()
@@ -21,6 +22,7 @@ def test_valid_login_standard_user(page):
 @allure.feature("Login Functionality")
 @allure.story("Invalid Login")
 @allure.step("Test invalid username login")
+@allure.description("Verify that login fails with an invalid username. This test ensures an appropriate error message is displayed when the username doesn't exist.")
 def test_invalid_username(page):
     login_page = LoginPage(page)
     login_page.goto()
@@ -34,6 +36,7 @@ def test_invalid_username(page):
 @allure.feature("Login Functionality")
 @allure.story("Invalid Login")
 @allure.step("Test invalid password login")
+@allure.description("Verify that login fails with an invalid password. This test ensures an appropriate error message is displayed when the password is incorrect.")
 def test_invalid_password(page):
     with allure.step("Initialize login page"):
         login_page = LoginPage(page)
@@ -51,6 +54,7 @@ def test_invalid_password(page):
 @allure.feature("Login Functionality")
 @allure.story("Locked User")
 @allure.step("Test locked out user login")
+@allure.description("Verify that a locked out user cannot log in. This test ensures the appropriate error message is displayed for locked accounts.")
 def test_locked_out_user(page):
     login_page = LoginPage(page)
     login_page.goto()
@@ -64,6 +68,7 @@ def test_locked_out_user(page):
 @allure.feature("Login Functionality")
 @allure.story("Empty Credentials")
 @allure.step("Test empty credentials login")
+@allure.description("Verify that login fails when both username and password are empty. This test ensures validation requires both fields to be filled.")
 def test_empty_username_and_password(page):
     login_page = LoginPage(page)
     login_page.goto()
@@ -77,6 +82,7 @@ def test_empty_username_and_password(page):
 @allure.feature("Login Functionality")
 @allure.story("Logout")
 @allure.step("Test logout flow")
+@allure.description("Verify that a logged-in user can successfully log out. This test ensures the user is redirected to the login page after logout.")
 def test_logout_flow(page):
     login_page = LoginPage(page)
     login_page.goto()
@@ -90,6 +96,7 @@ def test_logout_flow(page):
 @allure.feature("Login Functionality")
 @allure.story("Direct URL Access")
 @allure.step("Test direct URL access")
+@allure.description("Verify that accessing the inventory page directly without login redirects to the login page. This test ensures proper authentication protection.")
 def test_direct_url_access(page):
     page.goto('https://www.saucedemo.com/inventory')
     expect(page).to_have_url(re.compile(r'/'))
@@ -98,6 +105,7 @@ def test_direct_url_access(page):
 @allure.feature("Login Functionality")
 @allure.story("Session Handling")
 @allure.step("Test session handling")
+@allure.description("Verify that clearing cookies invalidates the session. This test ensures the user is redirected to login after clearing session cookies.")
 def test_session_handling(page):
     login_page = LoginPage(page)
     login_page.goto()
@@ -110,6 +118,7 @@ def test_session_handling(page):
 @allure.feature("Login Functionality")
 @allure.story("Performance User")
 @allure.step("Test performance user")
+@allure.description("Verify that the performance glitch user can log in successfully. This test ensures different user types can access the system.")
 def test_performance_user(page):
     login_page = LoginPage(page)
     login_page.goto()

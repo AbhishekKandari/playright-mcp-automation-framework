@@ -12,6 +12,7 @@ def setup(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Add to Cart")
+@allure.description("Verify that a single item can be successfully added to the cart. This test checks the cart badge count updates to 1 after adding an item.")
 def test_add_single_item_to_cart(page):
     inventory_page = InventoryPage(page)
     inventory_page.add_item_to_cart(0)
@@ -23,6 +24,7 @@ def test_add_single_item_to_cart(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Add to Cart")
+@allure.description("Verify that multiple items can be added to the cart. This test checks the cart badge count updates correctly to reflect multiple items.")
 def test_add_multiple_items_to_cart(page):
     inventory_page = InventoryPage(page)
     inventory_page.add_item_to_cart(0)
@@ -33,6 +35,7 @@ def test_add_multiple_items_to_cart(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Remove from Cart")
+@allure.description("Verify that an item can be removed directly from the inventory page. This test ensures the cart badge count decreases to 0 after removal.")
 def test_remove_item_from_cart_on_inventory_page(page):
     inventory_page = InventoryPage(page)
     inventory_page.add_item_to_cart(0)
@@ -43,6 +46,7 @@ def test_remove_item_from_cart_on_inventory_page(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Sorting")
+@allure.description("Verify that products can be sorted alphabetically from A to Z. This test ensures products are displayed in ascending alphabetical order.")
 def test_sort_products_by_name_a_to_z(page):
     inventory_page = InventoryPage(page)
     inventory_page.sort_products('az')
@@ -52,6 +56,7 @@ def test_sort_products_by_name_a_to_z(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Sorting")
+@allure.description("Verify that products can be sorted alphabetically from Z to A. This test ensures products are displayed in descending alphabetical order.")
 def test_sort_products_by_name_z_to_a(page):
     inventory_page = InventoryPage(page)
     inventory_page.sort_products('za')
@@ -61,6 +66,7 @@ def test_sort_products_by_name_z_to_a(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Sorting")
+@allure.description("Verify that products can be sorted by price from low to high. This test ensures products are displayed in ascending price order.")
 def test_sort_products_by_price_low_to_high(page):
     inventory_page = InventoryPage(page)
     inventory_page.sort_products('lohi')
@@ -71,6 +77,7 @@ def test_sort_products_by_price_low_to_high(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Sorting")
+@allure.description("Verify that products can be sorted by price from high to low. This test ensures products are displayed in descending price order.")
 def test_sort_products_by_price_high_to_low(page):
     inventory_page = InventoryPage(page)
     inventory_page.sort_products('hilo')
@@ -81,6 +88,7 @@ def test_sort_products_by_price_high_to_low(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Navigation")
+@allure.description("Verify that the cart can be navigated to from the inventory page. This test ensures the cart icon correctly navigates to the cart URL.")
 def test_navigate_to_cart_from_inventory(page):
     inventory_page = InventoryPage(page)
     inventory_page.add_item_to_cart(0)
@@ -90,6 +98,7 @@ def test_navigate_to_cart_from_inventory(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Product Details")
+@allure.description("Verify that product details can be viewed by clicking on a product name. This test ensures navigation to the product details page.")
 def test_view_product_details(page):
     page.click('.inventory_item_name')
     expect(page).to_have_url(re.compile(r'/inventory-item'))
@@ -97,6 +106,7 @@ def test_view_product_details(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Product Details")
+@allure.description("Verify that an item can be added to cart from the product details page. This test ensures the cart badge updates correctly after adding from details page.")
 def test_add_item_from_product_details_page(page):
     page.click('.inventory_item_name')
     page.click('#add-to-cart')
@@ -107,6 +117,7 @@ def test_add_item_from_product_details_page(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("UI Consistency")
+@allure.description("Verify UI state consistency when adding and removing items. This test ensures the cart badge count remains consistent during repeated add/remove operations.")
 def test_ui_state_consistency(page):
     inventory_page = InventoryPage(page)
     for i in range(3):
@@ -120,6 +131,7 @@ def test_ui_state_consistency(page):
 @allure.epic("SauceDemo E2E Testing")
 @allure.feature("Inventory Functionality")
 @allure.story("Multi-tab Behavior")
+@allure.description("Verify that a new browser tab can be opened and navigated to the inventory page. This test ensures multi-tab functionality works correctly.")
 def test_multi_tab_behavior(page):
     inventory_page = InventoryPage(page)
     inventory_page.add_item_to_cart(0)
