@@ -465,6 +465,27 @@ Modify `.github/workflows/playwright-tests.yml` to change:
 - Browser matrix: Add/remove browsers
 - Environment variables: Add secrets for API keys, URLs, etc.
 
+## 📊 CI/CD Evidences
+
+This section provides visual evidence of the CI/CD pipeline execution and automated test runs.
+
+### CI/CD Pipeline Execution
+
+![CI/CD Pipeline Evidence](ci_cd_evidences/img.png)
+
+### CI/CD Report
+
+The full CI/CD report with detailed test execution history, artifacts, and Allure reports is available at:
+
+**🔗 [CI/CD Report](https://github.com/AbhishekKandari/playright-mcp-automation-framework/compare/main...gh-pages)**
+
+The report includes:
+- Test execution history
+- Allure test results
+- HTML test reports
+- Screenshot artifacts
+- Build logs and status
+
 ---
 
 ## 🤝 Contributing
