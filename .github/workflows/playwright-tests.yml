@@ -1,5 +1,9 @@
 name: Playwright Scheduled Tests
 
+# ✅ REQUIRED for GitHub Pages deployment
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
   schedule:
@@ -98,11 +102,9 @@ jobs:
           path: allure-results
           merge-multiple: true
 
-      # ✅ FIXED: Reliable Allure installation
       - name: Install Allure CLI
         run: npm install -g allure-commandline
 
-      # (Optional but useful for debugging)
       - name: Verify Allure Results
         run: ls -R allure-results
 
@@ -121,7 +123,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
 
   notify:
