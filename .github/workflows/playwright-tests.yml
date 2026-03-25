@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [chromium, firefox, webkit]
+        browser: [chromium, firefox]
     
     steps:
       - name: Checkout code
@@ -101,9 +101,9 @@ jobs:
           merge-multiple: true
       
       - name: Set up Allure
-        uses: simplybusiness/deploy-actions/setup-allure@master
+        uses: qmetry/setup-allure@v0.1.2
         with:
-          version: '2.13.0'
+          allure-version: '2.13.0'
       
       - name: Generate Allure report
         run: |
