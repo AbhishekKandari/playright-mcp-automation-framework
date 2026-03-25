@@ -1,0 +1,135 @@
+name: Playwright Scheduled Tests
+
+on:
+  workflow_dispatch:
+    # Manual trigger
+  schedule:
+    # Run every 6 hours (at 00:00, 06:00, 12:00, 18:00 UTC)
+    - cron: '0 */6 * * *'
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    name: Run Playwright Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ matrix.browser }}-v1
+          restore-keys: |
+            playwright-${{ matrix.browser }}-
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Install Playwright browsers
+        run: |
+          playwright install --with-deps ${{ matrix.browser }}
+      
+      - name: Run tests
+        run: |
+          pytest --alluredir=allure-results --browser=${{ matrix.browser }}
+        env:
+          BASE_URL: https://www.saucedemo.com
+      
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-${{ matrix.browser }}
+          path: allure-results/
+          retention-days: 30
+      
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: html-report-${{ matrix.browser }}
+          path: test-results/
+          retention-days: 30
+      
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-screenshots-${{ matrix.browser }}
+          path: |
+            **/*.png
+            **/*.jpg
+          retention-days: 7
+
+  generate-report:
+    name: Generate Allure Report
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download Allure results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          path: allure-results
+          merge-multiple: true
+      
+      - name: Set up Allure
+        uses: delegator/allure-setup-action@v1
+        with:
+          allure_version: 2.13.0
+      
+      - name: Generate Allure report
+        run: |
+          allure generate allure-results --clean -o allure-report
+      
+      - name: Upload Allure report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
+          retention-days: 30
+      
+      - name: Deploy report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+
+  notify:
+    name: Notify on Failure
+    needs: [test, generate-report]
+    runs-on: ubuntu-latest
+    if: failure()
+    
+    steps:
+      - name: Send failure notification
+        run: |
+          echo "Tests failed! Check the Allure report for details."
